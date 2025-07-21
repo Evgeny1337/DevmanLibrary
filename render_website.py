@@ -1,5 +1,6 @@
 from jinja2 import Environment, FileSystemLoader, select_autoescape
 from more_itertools import chunked
+from urllib.parse import quote
 from livereload import Server
 import json
 
