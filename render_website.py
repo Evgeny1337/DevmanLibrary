@@ -38,6 +38,7 @@ def on_reload():
     for book in books:
         book['img_src'] = '../{}'.format(book['img_src'])
         book['book_path'] = '../{}'.format(book['book_path'])
+        book['genres'] = book['genres'].split(',')
     book_pages = list(chunked(books, 20))
     page_count = len(book_pages)
     for index, book_page in enumerate(book_pages):
