@@ -6,7 +6,8 @@ from livereload import Server
 from more_itertools import chunked
 
 PAGES_PATH = "pages"
-
+script_dir = os.path.dirname(os.path.abspath(__file__))
+meta_path = os.path.join(script_dir, "meta_data.json")
 
 def create_page(index, books, page_count):
     env = Environment(
@@ -32,7 +33,7 @@ def create_page(index, books, page_count):
 
 
 def on_reload():
-    with open("meta_data.json", "r") as my_file:
+    with open(meta_path, "r") as my_file:
         books_json = my_file.read()
     books = json.loads(books_json)
     for book in books:
