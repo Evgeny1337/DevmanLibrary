@@ -5,49 +5,50 @@ from jinja2 import Environment, FileSystemLoader, select_autoescape
 from livereload import Server
 from more_itertools import chunked
 
-PAGES_PATH = "pages"
-script_dir = os.path.dirname(os.path.abspath(__file__))
-meta_path = os.path.join(script_dir, "meta_data.json")
+PAGES_PATH = 'pages'
+PAGE_ELEMENTS = 20
+PAGE_COLUMNS = 2
+
 
 def create_page(index, books, page_count):
     env = Environment(
         loader=FileSystemLoader('.'),
         autoescape=select_autoescape(['html'])
     )
-    page_number = index + 1
-    rows_of_books = list(chunked(books, 2))
+    rows_of_books = list(chunked(books, PAGE_COLUMNS))
     template = env.get_template('template.html')
-    next_number = page_number + 1
-    previous_number = page_number - 1
+    next_number = index + 1
+    previous_number = index - 1
     rendered_page = template.render(
         rows_of_books=rows_of_books,
         page_count=page_count,
-        page_number=page_number,
+        page_number=index,
         next_number=next_number,
         previous_number=previous_number)
     os.makedirs(PAGES_PATH, exist_ok=True)
-    file_name = '{}/index{}.html'.format(PAGES_PATH, page_number)
+    file_name = '{}/index{}.html'.format(PAGES_PATH, index)
 
     with open(file_name, "w", encoding='utf8') as my_file:
         my_file.write(rendered_page)
 
 
-def on_reload():
+def on_reload(meta_path):
     with open(meta_path, "r") as my_file:
-        books_json = my_file.read()
-    books = json.loads(books_json)
+        books = json.load(my_file)
     for book in books:
         book['img_src'] = '../{}'.format(book['img_src'])
         book['book_path'] = '../{}'.format(book['book_path'])
         book['genres'] = book['genres'].split(',')
-    book_pages = list(chunked(books, 20))
+    book_pages = list(chunked(books, PAGE_ELEMENTS))
     page_count = len(book_pages)
-    for index, book_page in enumerate(book_pages):
+    for index, book_page in enumerate(book_pages, start=1):
         create_page(index, book_page, page_count)
 
 
 def main():
-    on_reload()
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+    meta_path = os.path.join(script_dir, 'meta_data.json')
+    on_reload(meta_path)
     server = Server()
     server.watch('template.html', on_reload)
     server.serve(root='.')
