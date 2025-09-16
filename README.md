@@ -61,8 +61,7 @@ python -m livereload
 ## Тестирование
 Пример работы приложения
 ![Снимок экрана 2025-07-29 в 15.49.28.png](%D0%A1%D0%BD%D0%B8%D0%BC%D0%BE%D0%BA%20%D1%8D%D0%BA%D1%80%D0%B0%D0%BD%D0%B0%202025-07-29%20%D0%B2%2015.49.28.png)
-Ссылки на сайт:
-* http://195.133.194.120:8081/pages/index1.html
+Ссылка на сайт:
 * https://evgeny1337.github.io/DevmanLibrary/
 
 
