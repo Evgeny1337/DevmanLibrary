@@ -28,12 +28,14 @@ def create_page(index, books, page_count):
     os.makedirs(PAGES_PATH, exist_ok=True)
     file_name = '{}/index{}.html'.format(PAGES_PATH, index)
 
-    with open(file_name, "w", encoding='utf8') as my_file:
+    with open(file_name, 'w', encoding='utf8') as my_file:
         my_file.write(rendered_page)
 
 
-def on_reload(meta_path):
-    with open(meta_path, "r") as my_file:
+def on_reload():
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+    meta_path = os.path.join(script_dir, 'meta_data.json')
+    with open(meta_path, 'r') as my_file:
         books = json.load(my_file)
     for book in books:
         book['img_src'] = '../{}'.format(book['img_src'])
@@ -46,9 +48,7 @@ def on_reload(meta_path):
 
 
 def main():
-    script_dir = os.path.dirname(os.path.abspath(__file__))
-    meta_path = os.path.join(script_dir, 'meta_data.json')
-    on_reload(meta_path)
+    on_reload()
     server = Server()
     server.watch('template.html', on_reload)
     server.serve(root='.')
