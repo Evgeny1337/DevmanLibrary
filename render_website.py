@@ -38,8 +38,8 @@ def on_reload():
     with open(meta_path, 'r') as my_file:
         books = json.load(my_file)
     for book in books:
-        book['img_src'] = '../{}'.format(book['img_src'])
-        book['book_path'] = '../{}'.format(book['book_path'])
+        book['img_src'] = '../media/{}'.format(book['img_src'])
+        book['book_path'] = '../media/{}'.format(book['book_path'])
         book['genres'] = book['genres'].split(',')
     book_pages = list(chunked(books, PAGE_ELEMENTS))
     page_count = len(book_pages)
