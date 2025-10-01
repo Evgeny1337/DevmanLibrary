@@ -19,8 +19,7 @@
                 Previous
               </a>
             </li>
-            {% for number in range(1, page_count+1) %} {% if page_number ==
-            number %}
+            {% for number in range(1, page_count+1) %} {% if page_number == number %}
             <li class="page-item active">
               <a class="page-link" href="index{{number}}.html">{{number}}</a>
             </li>
@@ -29,9 +28,7 @@
               <a class="page-link" href="index{{number}}.html">{{number}}</a>
             </li>
             {% endif %} {% endfor %}
-            <li
-              class="page-item {{'disabled' if next_number > page_count else ''}}"
-            >
+            <li class="page-item {{'disabled' if next_number > page_count else ''}}">
               <a class="page-link" href="index{{next_number}}.html">Next</a>
             </li>
           </ul>
